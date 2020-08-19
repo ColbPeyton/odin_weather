@@ -1,7 +1,3 @@
-Developer: ColbPeyton
-Created for the Odin Project JS course
-
-
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
