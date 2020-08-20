@@ -2,7 +2,7 @@ import {weatherKey} from '../keys/key_weather';
 
 
 
-async function getWeather(city, state=''){
+async function getWeather(city, state='', unit='imperial'){
     try{
         let completeSearch = '';
 
@@ -12,7 +12,7 @@ async function getWeather(city, state=''){
             completeSearch = `${city}`;
 
         }
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${completeSearch}&appid=${weatherKey}`);
+        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${completeSearch}&appid=${weatherKey}&units=${unit}`);
         const weatherData = await response.json();
         return weatherData;
     }
