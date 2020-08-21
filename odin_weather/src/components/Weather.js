@@ -3,6 +3,7 @@ import DisplayImage from './DisplayImage';
 import DisplayWeather from './DisplayWeather';
 import getImage from '../helpers/getImage';
 import getWeather from '../helpers/getWeather';
+import Loading from './Loading';
 import Form from './Form';
 
 import '../styles/Weather.css';
@@ -10,6 +11,7 @@ import '../styles/Weather.css';
 function Weather(){
     const [currentLocation, setLocation] = useState({city: 'hattiesburg', unit:'imperial'});
     const [currentImage, setImage] = useState('weather');
+    const [isLoading, setLoading] = useState(false);
     const [currentWeather, setWeather] = useState('');
 
     const currRef = useRef(false);
@@ -23,8 +25,17 @@ function Weather(){
     },[currentLocation])
 
     useEffect(() => {
+        setLoading(!isLoading)
         updateImage(currentWeather)
     },[currentWeather]);
+
+    // Used to show loading, API returns too quickly. 
+    useEffect(() => {
+        setTimeout(()=>{
+            setLoading(!isLoading)
+
+        },1000)
+    },[currentImage]);
 
 
     async function makeInitialAPICalls(image){
@@ -74,10 +85,18 @@ function Weather(){
         return '';
     }
 
+    function renderLoadingOrImage(){
+        if(isLoading){
+            return(
+                <Loading />
+            )
+        }
+        return <DisplayImage imageUrl={currentImage}/>
+    }
+
     return(
         <div id='weather'>
-            
-            <DisplayImage imageUrl={currentImage}/>
+            {renderLoadingOrImage()}
             {showWeather()}
             <Form retrieveWeatherData={retrieveWeatherData}/>
         </div>
