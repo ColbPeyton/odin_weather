@@ -1,8 +1,9 @@
 import React from 'react';
+import '../styles/Header.css';
 
 function Header(){
     return(
-        <div>
+        <div id='header'>
             <h1>Odin Weather</h1>
         </div>
     );

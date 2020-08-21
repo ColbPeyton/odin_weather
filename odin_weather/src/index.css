@@ -17,7 +17,6 @@
 
 html,
 body{
-  max-width: var(--screen-width);
   font-family: Arial, Helvetica, sans-serif;
   background-color: var(--background-color);
   color: #333;

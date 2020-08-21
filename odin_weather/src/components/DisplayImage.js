@@ -1,9 +1,10 @@
 import React from 'react';
+import '../styles/DisplayImage.css';
 
 function DisplayImage(props){
     return(
-        <div>
-            <img src={props.imageUrl}/>
+        <div className='display-image'>
+            <img src={props.imageUrl} alt='curent weather'/>
         </div>
     );
 }
