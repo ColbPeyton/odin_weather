@@ -35,8 +35,10 @@ export function generateBarColor(status){
 //based on weather status, return text color (removes conflict with background bar)
 export function generateColorBasedOnBackground(status){
     const temp = status;
+    const exp1 = temp >= 200 && temp < 300  ? true : false;
+    const exp2 = temp > 800 && temp < 900 ? true : false;
     let color = '';
-    if(temp >= 200 && temp < 300 || temp > 800 && temp < 900){
+    if(exp1|| exp2){
         color = '#ECF8F8'
     }else{
         color = '#2D2A32'

@@ -74,13 +74,6 @@ function Weather(){
     }
 
 
-    function renderWeather(){
-        if(currentWeather !== '' && currentWeather.name !== 'City Not Found'){
-            return <DisplayWeather data={currentWeather} color={generateColorBasedOnBackground(currentWeather.weather[0].id)}/>
-        }
-        return '';
-    }
-
     function renderLoadingOrWeatherComponents(){
         if(!isLoading){
             return(
@@ -96,13 +89,33 @@ function Weather(){
         )
     }
 
-    function updateColorBasedOnWeather(){
-        if(currentWeather.hasOwnProperty('weather')){
-            console.log(currentWeather.weather[0].id)
-            return generateBarColor(currentWeather.weather[0].id);
-        }else{
-            return '';
+
+    function renderWeather(){
+        if(currentWeather !== '' && currentWeather.name !== 'City Not Found'){
+            return <DisplayWeather data={currentWeather} color={generateColorBasedOnBackground(currentWeather.weather[0].id)}/>
         }
+        return renderInstructions();
+    }
+
+    function renderInstructions(){
+        return(
+            <div className='weather-instructions'>
+                <h3>Enter a city to begin</h3>
+            </div>
+        );
+    }
+
+
+    function updateColorBasedOnWeather(){
+        if(isLoading){
+            if(currentWeather.hasOwnProperty('weather')){
+                return generateBarColor(currentWeather.weather[0].id);
+            }else{
+                return generateBarColor('');
+            }
+        }
+        return '';
+
     }
 
     return(
