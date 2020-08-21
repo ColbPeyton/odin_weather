@@ -3,7 +3,8 @@ import '../styles/DisplayWeather.css';
 
 function DisplayWeather(props){
     return(
-        <div id='display-weather'>
+        <div id='display-weather' style={{color: props.color}}>
+            <div className='display-container'>
             <div className='display-title'>
                 <h3>{props.data.name}</h3>
             </div>
@@ -24,7 +25,7 @@ function DisplayWeather(props){
                     <p>Min:</p> <p>{props.data.main.temp_min}</p>
                 </div>
             </div>
-
+            </div>
         </div>
     );
 }

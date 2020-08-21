@@ -1,9 +1,10 @@
 :root{
-  --background-color:#faf3dd;
-  --primary-color:#ffa69e;
-  --secondary-color:#aed9e0;
-  --light-color: #b8f2e6;
-  --dark-color: #5e6472;
+  --background-color:#ECF8F8;
+  --primary-color:#20A4F3;
+  --secondary-color:#FC440F;
+  --light-color: #f7b801;
+  --dark-color: #2D2A32;
+  --positive-color: #2F9C95;
   --screen-width: 700px;
 }
 
@@ -17,7 +18,7 @@
 
 html,
 body{
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Balsamiq Sans', cursive;
   background-color: var(--background-color);
-  color: #333;
+  color:var(--dark-color);
 }

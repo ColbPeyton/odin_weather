@@ -4,21 +4,19 @@ import DisplayWeather from './DisplayWeather';
 import getImage from '../helpers/getImage';
 import getWeather from '../helpers/getWeather';
 import Loading from './Loading';
+import {generateBarColor, generateColorBasedOnBackground} from '../helpers/generateBarColor';
 import Form from './Form';
 
 import '../styles/Weather.css';
 
 function Weather(){
     const [currentLocation, setLocation] = useState({city: 'hattiesburg', unit:'imperial'});
-    const [currentImage, setImage] = useState('weather');
+    const [currentImage, setImage] = useState('https://media.giphy.com/media/2vqaiPr1TrevmxCPUV/giphy.gif');
     const [isLoading, setLoading] = useState(false);
     const [currentWeather, setWeather] = useState('');
 
+    // used to enable weather api call/loading component (removes error with initial render)
     const currRef = useRef(false);
-
-    useEffect(()=>{
-        makeInitialAPICalls(callImage(currentImage));
-    }, [])
 
     useEffect(()=>{
         updateWeather(currentLocation);
@@ -31,32 +29,30 @@ function Weather(){
 
     // Used to show loading, API returns too quickly. 
     useEffect(() => {
-        setTimeout(()=>{
-            setLoading(!isLoading)
+        if(currRef.current){
+            setTimeout(()=>{
+                setLoading(!isLoading)
+            },1000)
+        }
+        currRef.current = true;
 
-        },1000)
     },[currentImage]);
 
-
-    async function makeInitialAPICalls(image){
-        const response = await Promise.all([image]);
-        setImage(response[0]);
-        currRef.current = true;
-    }
-
+    // weather
     async function callWeather(currLocation){
         return await getWeather(currLocation.city, currLocation.unit);
     }
-
     async function updateWeather(currLocation){
         if(currRef.current){
             const responseWeather = await callWeather(currLocation).then(data=>{ return data});
+            console.log(responseWeather)
             if(checkIfCityIsFound(responseWeather)){
                 setWeather(responseWeather);
             }
         }
     }
 
+    // image
     async function callImage(img){
         return await getImage(img);
     }
@@ -68,6 +64,7 @@ function Weather(){
     }
 
 
+    // passed to form to get location data
     async function retrieveWeatherData(city, unit){
             setLocation({city,unit});
     }
@@ -77,27 +74,41 @@ function Weather(){
     }
 
 
-
-    function showWeather(){
-        if(currentWeather != '' && currentWeather.name != 'City Not Found'){
-            return <DisplayWeather data={currentWeather} />
+    function renderWeather(){
+        if(currentWeather !== '' && currentWeather.name !== 'City Not Found'){
+            return <DisplayWeather data={currentWeather} color={generateColorBasedOnBackground(currentWeather.weather[0].id)}/>
         }
         return '';
     }
 
-    function renderLoadingOrImage(){
-        if(isLoading){
+    function renderLoadingOrWeatherComponents(){
+        if(!isLoading){
             return(
-                <Loading />
+                <div className='weather-info'>
+                    <Loading />
+                </div>
             )
         }
-        return <DisplayImage imageUrl={currentImage}/>
+        return( <div className='weather-info'>
+                    <DisplayImage imageUrl={currentImage}/>
+                        {renderWeather()}
+                </div>
+        )
+    }
+
+    function updateColorBasedOnWeather(){
+        if(currentWeather.hasOwnProperty('weather')){
+            console.log(currentWeather.weather[0].id)
+            return generateBarColor(currentWeather.weather[0].id);
+        }else{
+            return '';
+        }
     }
 
     return(
         <div id='weather'>
-            {renderLoadingOrImage()}
-            {showWeather()}
+            {renderLoadingOrWeatherComponents()}
+            <div className='weather-diag-bar' style={{backgroundColor: updateColorBasedOnWeather()}}></div>
             <Form retrieveWeatherData={retrieveWeatherData}/>
         </div>
     );

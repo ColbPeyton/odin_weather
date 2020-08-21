@@ -5,7 +5,7 @@ import '../styles/Footer.css';
 function Footer(){
     return(
         <div id='footer'>
-            <p>Footer</p>
+            <p>gifs & weather</p>
         </div>
     );
 }

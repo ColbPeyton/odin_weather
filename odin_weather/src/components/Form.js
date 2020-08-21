@@ -76,7 +76,7 @@ class Form extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className='form-container'>
                 {this.renderErrorMessage()}
                 <form id='form' onSubmit={this.handleSubmit}>
                     <div className={`${this.state.invalidInput ? 'error':''} form-inputs`}>
